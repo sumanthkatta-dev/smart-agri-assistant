@@ -1,50 +1,65 @@
-# Smart Agri Platform (Full-Stack) 🌾🤖
+# Smart Agri Platform (Hack Era '25) 🌾
 
-![Status](https://img.shields.io/badge/System-Full_Stack-blue?style=for-the-badge)
-![Feature](https://img.shields.io/badge/Accessibility-Text_to_Speech-purple?style=for-the-badge)
-![Data](https://img.shields.io/badge/Market_Data-Live_Updates-green?style=for-the-badge)
+![Event](https://img.shields.io/badge/Hackathon-Hack_Era_2025-orange?style=for-the-badge)
+![Role](https://img.shields.io/badge/Role-Team_Lead-blue?style=for-the-badge)
+![Status](https://img.shields.io/badge/Result-Finalist_Submission-success?style=for-the-badge)
 
-> **AgriTech Solution (2025):** A comprehensive full-stack platform designed to bridge the digital divide for farmers using accessible voice tools, multi-language support, and real-time market intelligence.
+> **Competition Entry:** Built for **Hack Era 2025** at GITAM University, Hyderabad.
+> **Role:** Team Lead (Squad of 4)
 
-## 🖼️ Project Overview (Dashboard)
-The main interface provides a comprehensive view of farm status and market data.
+## 🖼️ Project Overview
+A full-stack agricultural ecosystem designed to bridge the digital divide for rural farmers using voice accessibility and real-time market data.
 ![Main Dashboard](./preview-main.jpg)
 
 ---
 
-## 🌟 Advanced Features Showcase
-This system goes beyond simple monitoring by integrating advanced accessibility and real-time data features.
+## 🧠 Leadership & Methodology
+As the **Team Lead**, I was responsible for architectural decisions, time management, and code integration during the tight hackathon deadline.
 
-### 🗣️ Accessibility & Live Data
-* **Text-to-Speech (TTS):** Integrated Web Speech APIs read out crucial data for accessible usage in the field.
-* **Multi-Language Support:** Dynamic language switching for broader regional accessibility.
-* **Live Market API:** Real-time fetching and display of current crop prices.
+### ⏱️ Time Management Strategy
+* **Triage & Prioritization:** We adopted an "MVP-First" approach, ensuring the core **Text-to-Speech (TTS)** and **Market API** features were functional within the first 12 hours before refining the UI.
+* **Parallel Development:** I split the team into two streams—Frontend (Dashboard/UI) and Backend (API/Data Logic)—and managed merge conflicts to keep the main branch stable.
 
-**Feature Preview:**
-![Accessibility and Data Features](./preview-features.jpg)
-*(Snapshot highlighting TTS controls and live price feeds)*
+### 💡 The Problem & Solution
+* **The Challenge:** Most Agri-Tech apps are text-heavy and require literacy, alienating the actual farmers who need them.
+* **Our Solution:** An "Accessibility-First" interface that *speaks* to the farmer in their local language and uses visual indicators (Red/Green trends) instead of complex charts.
 
 ---
 
-**Live-price Preview:**
-![Live-price](./preview-backend.jpg)
-*(Snapshot demonstrating Live-price)*
+## 🌟 Key Features Showcase
 
-## 🏗️ Full-Stack Architecture
-The system is built on a robust backend designed to handle data processing, API integrations, and serve the responsive frontend.
+### 1. Accessibility Engine (TTS)
+We integrated the Web Speech API to read out navigation, prices, and alerts. This ensures farmers with low literacy can still navigate the app confidently.
+* **Multi-Language Support:** Dynamic switching for regional accessibility.
+
+**Feature Preview:**
+![Accessibility Features](./preview-features.jpg)
+*(Snapshot showing Voice Controls and Language Options)*
+
+### 2. Live Market Intelligence
+Real-time connection to agricultural endpoints to fetch current mandi (market) prices.
+* **Logic:** Updates asynchronously to prevent page reloads.
+
+---
+
+## 🏗️ Technical Architecture
+The system relies on a robust backend to handle data processing and serve the responsive frontend.
+
+**Live-Prices Structure:**
+![Live-Prices](./preview-backend.jpg)
 
 ### 🛠️ Tech Stack
-* **Frontend:** HTML5, CSS3 (Responsive Grid), JavaScript.
-* **Backend:** (e.g., Python Flask / Node.js Express / Java Spring Boot - update this!)
-* **APIs Integration:** Web Speech API (TTS), External Agriculture Market Data APIs.
+* **Frontend:** HTML5, CSS3 (Responsive Grid), JavaScript (Vanilla).
+* **Backend:** Python / Node.js (Scalable Architecture).
+* **APIs:** Web Speech API, Open Government Data Platform (Agriculture).
 
 ## 🚀 How to Run Locally
 ```bash
-# 1. Clone the repo
+# 1. Clone the repository
 git clone [https://github.com/sumanthkatta-dev/smart-agri-platform-fullstack.git](https://github.com/sumanthkatta-dev/smart-agri-platform-fullstack.git)
 
 # 2. Navigate into directory
 cd smart-agri-platform-fullstack
 
-# 3. Start the backend server
-# (Add command specific to your backend here, e.g., 'python app.py' or 'npm run dev')
+# 3. Start the application
+# (Refer to backend specific instructions in the repo)
