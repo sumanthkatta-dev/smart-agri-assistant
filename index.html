@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FarmAssist - Agricultural Knowledge Bot</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #2b9a66;
+      --primary-dark: #0a5f43;
+      --accent: #f49f3f;
+      --bg-light: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.9);
+      --border: rgba(0, 0, 0, 0.1);
+      --text: #1b1f24;
+      --text-muted: #4b5563;
+      --text-inverse: #ffffff;
+      --panel: rgba(255, 255, 255, 0.82);
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    }
+    /* Global Styles */
+    body {
+      background: radial-gradient(circle at 20% 20%, rgba(43, 154, 102, 0.12), transparent 30%),
+                  radial-gradient(circle at 80% 0%, rgba(244, 159, 63, 0.12), transparent 28%),
+                  linear-gradient(135deg, #f7f9fb 0%, #e8f3ec 50%, #f9f3ea 100%);
+      font-family: 'Space Grotesk', 'Sora', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      backdrop-filter: blur(10px);
+      padding: 0.85rem 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+    }
+    .navbar-brand, .navbar-nav .nav-link {
+      color: var(--text-inverse);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--accent);
+    }
+
+    /* Hero */
+    .hero {
+      margin-top: 70px;
+      padding: 60px 0 30px;
+      position: relative;
+    }
+    .hero-card {
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -120px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(43, 154, 102, 0.16), transparent 60%);
+      transform: rotate(8deg);
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(43, 154, 102, 0.12);
+      color: var(--primary-dark);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.01em;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 700;
+      margin: 16px 0 10px;
+      line-height: 1.2;
+    }
+    .hero-subtitle {
+      color: var(--text-muted);
+      max-width: 720px;
+      font-size: 1.05rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .hero-btn {
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .hero-btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--text-inverse);
+    }
+    .hero-btn-ghost {
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text);
+    }
+    .hero-btn:hover { transform: translateY(-2px); }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.86);
+      border-radius: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    }
+    .stat-label { color: var(--text-muted); font-weight: 600; font-size: 0.9rem; }
+    .stat-value { font-size: 1.4rem; font-weight: 700; }
+    /* Main Container */
+    .main-container {
+      margin-top: 70px;
+      padding: 20px;
+    }
+    /* Features Panel */
+    .features-panel {
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    .feature-section {
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-section:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .feature-section h5 {
+      color: var(--primary-dark);
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px dashed rgba(0,0,0,0.08);
+      padding-bottom: 8px;
+    }
+    .feature-btn {
+      width: 100%;
+      border-radius: 10px !important;
+      padding: 12px;
+      font-size: 1rem;
+      margin-top: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+    }
+    /* Weather Widget */
+    .weather-widget {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--text-inverse);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .weather-title {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .weather-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .weather-temp {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .weather-icon {
+      font-size: 2.2rem;
+    }
+    .weather-details {
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    .weather-detail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    /* Agricultural Schemes Container */
+    .agri-schemes-container {
+      padding: 25px;
+      margin-top: 20px;
+      background: var(--bg-light);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .agri-schemes-container h5 {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    /* Video Tutorials Container */
+    .video-tutorials-container {
+      padding: 25px;
+      margin-top: 20px;
+      background: var(--bg-light);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .video-tutorials-container h5 {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    .video-item {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .video-item:last-child {
+      border-bottom: none;
+    }
+    .video-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .video-description {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .watch-btn {
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+    /* Chat Bot Container */
+    .chat-container {
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.04);
+      height: 88vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--text-inverse);
+      padding: 15px 20px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo {
+      height: 45px;
+      width: 45px;
+      background: var(--bg-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 22px;
+    }
+    .title-container h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    .title-container p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+    .translator-container {
+      padding: 8px 20px;
+      background: var(--bg-light);
+      border-bottom: 1px solid var(--border);
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: var(--bg-light);
+    }
+    .message {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      position: relative;
+      animation: messageAppear 0.3s ease forwards;
+      background: var(--bg-light);
+      color: var(--text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    @keyframes messageAppear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .user-message {
+      background: #e6f7ff;
+      align-self: flex-end;
+    }
+    .bot-message {
+      background: #f0f4eb;
+      align-self: flex-start;
+    }
+    .bot-icon, .user-icon {
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      position: absolute;
+      bottom: -5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    .bot-icon {
+      background: var(--primary);
+      color: var(--text-inverse);
+      left: -5px;
+    }
+    .user-icon {
+      background: #2196f3;
+      color: var(--text-inverse);
+      right: -5px;
+    }
+    .loader {
+      display: none;
+      margin: 10px 0;
+    }
+    .typing-indicator {
+      background: #f0f4eb;
+      padding: 12px 16px;
+      border-radius: 10px;
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      max-width: 100px;
+    }
+    .typing-indicator span {
+      display: inline-block;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0.4;
+      margin-right: 4px;
+      animation: typing 1.2s infinite ease-in-out;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.4; transform: scale(1); }
+    }
+    .chat-input {
+      padding: 15px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-light);
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+    .input-group {
+      position: relative;
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+      overflow: hidden;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: all 0.25s ease;
+    }
+    .input-group:focus-within {
+      box-shadow: 0 14px 28px rgba(0,0,0,0.14);
+      transform: translateY(-1px);
+    }
+    .form-control {
+      border: none;
+      padding: 16px 18px;
+      font-size: 1rem;
+      background: transparent;
+      color: var(--text);
+      width: 100%;
+    }
+    .form-control:focus {
+      box-shadow: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: 1px solid rgba(0,0,0,0.06);
+      color: var(--text-inverse);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+      transition: all 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:hover, .btn-primary:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(0,0,0,0.14);
+    }
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.45s ease;
+    }
+    .btn-primary:active::after {
+      transform: translate(-50%, -50%) scale(1.4);
+      opacity: 0;
+    }
+    .btn-icon {
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.9);
+      color: var(--text);
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+    .feature-btn {
+      text-align: center;
+    }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 600ms linear;
+      background: rgba(255, 255, 255, 0.7);
+    }
+    @keyframes ripple {
+      to { transform: scale(4); opacity: 0; }
+    }
+    @media (max-width: 768px) {
+      .chat-container { height: 78vh; }
+    }
+    /* Live Market Prices Container */
+    .live-market-container {
+      padding: 25px;
+      margin-top: 20px;
+      background: var(--bg-light);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .live-market-container h5 {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-leaf"></i> FarmAssist
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#chat">Chat</a></li>
+          <li class="nav-item"><a class="nav-link" href="#data">Data</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-eyebrow"><i class="fas fa-seedling"></i> Precision farming co-pilot</div>
+        <h1 class="hero-title">Grow smarter with FarmAssist</h1>
+        <p class="hero-subtitle">Local weather, agronomy guidance, subsidies, and live market signals—curated for modern growers in one crisp workspace.</p>
+        <div class="hero-actions">
+          <a href="#chat" class="hero-btn hero-btn-primary"><i class="fas fa-message"></i> Start chatting</a>
+          <a href="#features" class="hero-btn hero-btn-ghost"><i class="fas fa-compass"></i> Explore features</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-label">Weather-ready</div>
+            <div class="stat-value"><i class="fas fa-cloud-sun"></i> Micro updates</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Crop intelligence</div>
+            <div class="stat-value"><i class="fas fa-leaf"></i> Rotation & inputs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Market pulse</div>
+            <div class="stat-value"><i class="fas fa-chart-line"></i> Live boards</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Main Content -->
+  <div class="container-fluid main-container" id="features">
+    <div class="row">
+      <!-- Left Column: Features and Weather -->
+      <div class="col-lg-4 mb-4">
+        <div class="features-panel">
+          <!-- Weather Widget -->
+          <div class="weather-widget">
+            <div class="weather-title">
+              <i class="fas fa-cloud-sun"></i> Local Weather
+            </div>
+            <div class="weather-info">
+              <div class="weather-temp" id="weatherTemp">--°C</div>
+              <div class="weather-icon">
+                <i class="fas fa-cloud-sun"></i>
+              </div>
+            </div>
+            <div class="weather-details">
+              <div class="weather-detail">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="weatherLocation">--</span>
+              </div>
+              <div class="weather-detail">
+                <i class="fas fa-tint"></i>
+                <span id="weatherHumidity">--</span>
+              </div>
+            </div>
+          </div>
+          <!-- Crop Rotation Advice -->
+          <div class="feature-section">
+            <h5><i class="fas fa-sync-alt"></i> Crop Rotation Advice</h5>
+            <form id="cropRotationForm" class="feature-form">
+              <div class="mb-3">
+                <input type="text" id="cropRotationInput" class="form-control" placeholder="Enter your current crops and soil type..." required>
+              </div>
+              <button type="submit" class="btn btn-primary feature-btn">
+                Get Crop Rotation Advice
+              </button>
+            </form>
+          </div>
+          <!-- Fertilizer Recommendations -->
+          <div class="feature-section">
+            <h5><i class="fas fa-flask"></i> Fertilizer Recommendations</h5>
+            <form id="fertilizerForm" class="feature-form">
+              <div class="mb-3">
+                <input type="text" id="fertilizerInput" class="form-control" placeholder="Enter crop type and soil conditions..." required>
+              </div>
+              <button type="submit" class="btn btn-primary feature-btn">
+                Get Fertilizer Recommendations
+              </button>
+            </form>
+          </div>
+          <!-- Pest Detection -->
+          <div class="feature-section">
+            <h5><i class="fas fa-bug"></i> Pest Detection</h5>
+            <form id="pestForm" enctype="multipart/form-data" class="feature-form">
+              <div class="mb-3">
+                <div class="file-input-container">
+                  <label for="pestImage" class="file-input-label">
+                    <i class="fas fa-camera"></i> Choose Image
+                  </label>
+                  <input type="file" class="file-input" id="pestImage" name="image" accept="image/*" required>
+                </div>
+                <div id="fileName" class="file-name"></div>
+              </div>
+              <button type="submit" class="btn btn-primary feature-btn">
+                Detect Pest
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Right Column: Chat Bot Interface -->
+      <div class="col-lg-8" id="chat">
+        <div class="chat-container">
+          <div class="chat-header">
+            <div class="logo-container">
+              <div class="logo">
+                <i class="fas fa-leaf"></i>
+              </div>
+              <div class="title-container">
+                <h2>FarmAssist</h2>
+                <p>Your Agricultural Knowledge Assistant</p>
+              </div>
+            </div>
+            <div id="google_translate_element"></div>
+          </div>
+          <div class="translator-container"></div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+              <div class="bot-icon"><i class="fas fa-robot"></i></div>
+              <p>Hello! I'm FarmAssist, your agricultural knowledge assistant. Ask me about crops, soil, pests, weather, or farming techniques.</p>
+            </div>
+          </div>
+          <div class="loader" id="loader">
+            <div class="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="chat-input">
+            <form id="chatForm">
+              <div class="input-group">
+                <input type="text" id="userInput" class="form-control" placeholder="Type your message here..." required>
+                <button type="submit" class="btn btn-primary" aria-label="Send message">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Agricultural Schemes: Separate Container -->
+    <div class="row" id="data">
+      <div class="col-12">
+        <div class="agri-schemes-container">
+          <h5><i class="fas fa-rupee-sign"></i> Agricultural Schemes</h5>
+          <div id="subsidyResults" class="mt-3"></div>
+          <button id="fetchSchemesBtn" class="btn btn-primary feature-btn mt-3">Fetch Agricultural Schemes</button>
+          <a href="https://agriwelfare.gov.in/en/" target="_blank">Visit agriwelfare.gov.in</a>
+        </div>
+      </div>
+    </div>
+    <!-- Video Tutorials: Separate Container -->
+    <div class="row">
+      <div class="col-12">
+        <div class="video-tutorials-container">
+          <h5><i class="fas fa-video"></i> Video Tutorials</h5>
+          <div id="videoTutorialsResults" class="mt-3"></div>
+          <button id="fetchVideosBtn" class="btn btn-primary feature-btn mt-3">Fetch Video Tutorials</button>
+        </div>
+      </div>
+    </div>
+    <!-- Live Market Prices: New Feature -->
+    <div class="row">
+      <div class="col-12">
+        <div class="live-market-container">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5><i class="fas fa-chart-line"></i> Live Market Prices</h5>
+            <button id="refreshPricesBtn" class="btn btn-primary">Refresh</button>
+          </div>
+          <p id="lastUpdated" class="text-muted mb-2">Last updated: --</p>
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>APMC's</th>
+                  <th>Commodity</th>
+                  <th>Min Price (Rs.)</th>
+                  <th>Modal Price (Rs.)</th>
+                  <th>Max Price (Rs.)</th>
+                </tr>
+              </thead>
+              <tbody id="marketPricesTable">
+                <tr>
+                  <td>GUNTUR</td>
+                  <td>CHILLI-334</td>
+                  <td>7,000</td>
+                  <td>11,500</td>
+                  <td>13,200</td>
+                </tr>
+                <tr>
+                  <td>GUNTUR</td>
+                  <td>CHILLI-5</td>
+                  <td>11,000</td>
+                  <td>11,000</td>
+                  <td>11,000</td>
+                </tr>
+                <tr>
+                  <td>GUNTUR</td>
+                  <td>CHILLI-TEJA</td>
+                  <td>6,000</td>
+                  <td>13,500</td>
+                  <td>13,600</td>
+                </tr>
+                <tr>
+                  <td>GUNTUR</td>
+                  <td>CHILLI BADIGA</td>
+                  <td>9,000</td>
+                  <td>9,000</td>
+                  <td>11,000</td>
+                </tr>
+                <tr>
+                  <td>GUNTUR</td>
+                  <td>CHILLI-341</td>
+                  <td>10,000</td>
+                  <td>13,000</td>
+                  <td>13,500</td>
+                </tr>
+                <tr>
+                  <td>GUNTUR</td>
+                  <td>CHILLI-DEVANURU DELUX</td>
+                  <td>9,500</td>
+                  <td>11,000</td>
+                  <td>13,000</td>
+                </tr>
+                <tr>
+                  <td>GUNTUR</td>
+                  <td>CHILLI-THAALU</td>
+                  <td>4,000</td>
+                  <td>6,500</td>
+                  <td>9,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>GARLIC</td>
+                  <td>6,000</td>
+                  <td>6,000</td>
+                  <td>6,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>SWEET LEMON (MOSAMBI)</td>
+                  <td>3,000</td>
+                  <td>3,000</td>
+                  <td>3,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>BRINJAL</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>CARROT</td>
+                  <td>600</td>
+                  <td>600</td>
+                  <td>600</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>APPLE</td>
+                  <td>7,000</td>
+                  <td>10,000</td>
+                  <td>10,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>CUCUMBER</td>
+                  <td>1,000</td>
+                  <td>1,000</td>
+                  <td>1,800</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>GRAPES</td>
+                  <td>4,500</td>
+                  <td>6,000</td>
+                  <td>6,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>LEMON</td>
+                  <td>7,000</td>
+                  <td>7,000</td>
+                  <td>7,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>MANGO</td>
+                  <td>12,000</td>
+                  <td>12,000</td>
+                  <td>12,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>POTATO</td>
+                  <td>1,100</td>
+                  <td>1,100</td>
+                  <td>1,100</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>POMEGRANATE</td>
+                  <td>10,000</td>
+                  <td>10,000</td>
+                  <td>10,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>TOMATO</td>
+                  <td>800</td>
+                  <td>800</td>
+                  <td>1,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>PEAS GREEN</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>GINGER</td>
+                  <td>5,000</td>
+                  <td>5,000</td>
+                  <td>5,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>BOTTLE GOURD</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>CAPSICUM</td>
+                  <td>2,500</td>
+                  <td>2,500</td>
+                  <td>2,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>CAULIFLOWER</td>
+                  <td>500</td>
+                  <td>500</td>
+                  <td>500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>BANANA</td>
+                  <td>4,000</td>
+                  <td>4,000</td>
+                  <td>4,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>GREEN CHILLI</td>
+                  <td>4,500</td>
+                  <td>4,500</td>
+                  <td>4,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>KINNOW</td>
+                  <td>3,500</td>
+                  <td>3,500</td>
+                  <td>3,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>ONION</td>
+                  <td>2,000</td>
+                  <td>2,000</td>
+                  <td>3,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>ORANGE</td>
+                  <td>5,000</td>
+                  <td>5,500</td>
+                  <td>5,500</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>TINDA</td>
+                  <td>800</td>
+                  <td>1,000</td>
+                  <td>1,000</td>
+                </tr>
+                <tr>
+                  <td>CH DADRI</td>
+                  <td>GREEN GRAM</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                  <td>1,500</td>
+                </tr>
+                <tr>
+                  <td>INDORE</td>
+                  <td>CHANA BENGAL GRAM-DOLLAR</td>
+                  <td>8,880</td>
+                  <td>9,605</td>
+                  <td>9,605</td>
+                </tr>
+                <tr>
+                  <td>JABALPUR</td>
+                  <td>TUR/ARHAR</td>
+                  <td>5,500</td>
+                  <td>7,105</td>
+                  <td>7,255</td>
+                </tr>
+                <tr>
+                  <td>JABALPUR</td>
+                  <td>MOONG WHOLE (GREEN GRAM)</td>
+                  <td>6,100</td>
+                  <td>6,700</td>
+                  <td>8,705</td>
+                </tr>
+                <tr>
+                  <td>JABALPUR</td>
+                  <td>MAIZE</td>
+                  <td>2,015</td>
+                  <td>2,195</td>
+                  <td>2,250</td>
+                </tr>
+                <tr>
+                  <td>JABALPUR</td>
+                  <td>MASOOR</td>
+                  <td>4,700</td>
+                  <td>5,785</td>
+                  <td>5,850</td>
+                </tr>
+                <tr>
+                  <td>JHARSUGUDA</td>
+                  <td>CABBAGE</td>
+                  <td>1,600</td>
+                  <td>1,600</td>
+                  <td>1,600</td>
+                </tr>
+                <tr>
+                  <td>JHARSUGUDA</td>
+                  <td>WATER MELON</td>
+                  <td>1,000</td>
+                  <td>1,000</td>
+                  <td>1,000</td>
+                </tr>
+                <tr>
+                  <td>JHARSUGUDA</td>
+                  <td>CAULIFLOWER</td>
+                  <td>1,800</td>
+                  <td>1,800</td>
+                  <td>1,800</td>
+                </tr>
+                <tr>
+                  <td>BIJOLIYA</td>
+                  <td>MUSTARD SEED</td>
+                  <td>5,745</td>
+                  <td>5,871</td>
+                  <td>6,060</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    var userLat = "";
+    var userLon = "";
+    
+    $(document).ready(function() {
+      $('#pestImage').on('change', function() {
+        const fileName = $(this).val().split('\\').pop();
+        $('#fileName').text(fileName ? fileName : '');
+      });
+      
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            userLat = position.coords.latitude;
+            userLon = position.coords.longitude;
+            getWeatherData(userLat, userLon);
+          },
+          function(error) {
+            console.log("Geolocation error: " + error.message + ". Using default location.");
+            userLat = 40.7128;
+            userLon = -74.0060;
+            getWeatherData(userLat, userLon);
+          }
+        );
+      } else {
+        console.log("Geolocation not supported. Using default location.");
+        userLat = 40.7128;
+        userLon = -74.0060;
+        getWeatherData(userLat, userLon);
+      }
+      
+      $('#chatForm').on('submit', function(e) {
+        e.preventDefault();
+        const userMessage = $('#userInput').val().trim();
+        if (userMessage) {
+          appendMessage('user', userMessage);
+          $('#userInput').val('');
+          $('#loader').show();
+          scrollToBottom();
+          $.ajax({
+            url: '/chat',
+            type: 'POST',
+            data: { message: userMessage, lat: userLat, lon: userLon },
+            success: function(response) {
+              response = response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+              $('#loader').hide();
+              appendMessage('bot', response);
+              scrollToBottom();
+            },
+            error: function() {
+              $('#loader').hide();
+              appendMessage('bot', "I'm sorry, I couldn't process your request. Please try again.");
+              scrollToBottom();
+            }
+          });
+        }
+      });
+      
+      $('#cropRotationForm').on('submit', function(e) {
+        e.preventDefault();
+        const details = $('#cropRotationInput').val().trim();
+        if (details) {
+          appendMessage('user', "Crop Rotation Query: " + details);
+          scrollToBottom();
+          $.ajax({
+            url: '/crop_rotation',
+            type: 'POST',
+            data: { message: details },
+            success: function(response) {
+              response = response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+              appendMessage('bot', response);
+              $('#cropRotationInput').val('');
+              scrollToBottom();
+            },
+            error: function() {
+              appendMessage('bot', "Error getting crop rotation advice. Please try again.");
+              scrollToBottom();
+            }
+          });
+        }
+      });
+      
+      $('#fertilizerForm').on('submit', function(e) {
+        e.preventDefault();
+        const details = $('#fertilizerInput').val().trim();
+        if (details) {
+          appendMessage('user', "Fertilizer Query: " + details);
+          scrollToBottom();
+          $.ajax({
+            url: '/fertilizer',
+            type: 'POST',
+            data: { message: details },
+            success: function(response) {
+              response = response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+              appendMessage('bot', response);
+              $('#fertilizerInput').val('');
+              scrollToBottom();
+            },
+            error: function() {
+              appendMessage('bot', "Error getting fertilizer recommendations. Please try again.");
+              scrollToBottom();
+            }
+          });
+        }
+      });
+      
+      $('#pestForm').on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        appendMessage('user', "Pest Detection: Image uploaded");
+        scrollToBottom();
+        $.ajax({
+          url: '/detect_pest',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            appendMessage('bot', response);
+            scrollToBottom();
+            $('#pestImage').val('');
+            $('#fileName').text('');
+          },
+          error: function() {
+            appendMessage('bot', "Error detecting pest. Please try again.");
+            scrollToBottom();
+          }
+        });
+      });
+      
+      $('#fetchSchemesBtn').on('click', function(e) {
+        e.preventDefault();
+        $('#subsidyResults').html("<p>Loading schemes...</p>");
+        $.ajax({
+          url: '/subsidy',
+          type: 'GET',
+          success: function(response) {
+            if (response.agricultural_schemes && response.agricultural_schemes.length > 0) {
+              let resultsHtml = "<ul>";
+              response.agricultural_schemes.forEach(scheme => {
+                resultsHtml += `<li><strong>${scheme.scheme_name}</strong>`;
+                if (scheme.description) {
+                  resultsHtml += `: ${scheme.description}`;
+                }
+                resultsHtml += `</li>`;
+              });
+              resultsHtml += "</ul>";
+              $('#subsidyResults').html(resultsHtml);
+            } else {
+              $('#subsidyResults').html("<p>No schemes available.</p>");
+            }
+          },
+          error: function() {
+            $('#subsidyResults').html("<p>Error fetching schemes. Please try again.</p>");
+          }
+        });
+      });
+      
+      $('#fetchVideosBtn').on('click', function(e) {
+        e.preventDefault();
+        $('#videoTutorialsResults').html("<p>Loading video tutorials...</p>");
+        $.ajax({
+          url: '/video_tutorials',
+          type: 'GET',
+          success: function(response) {
+            if (response.video_tutorials && response.video_tutorials.length > 0) {
+              let resultsHtml = "";
+              response.video_tutorials.forEach(video => {
+                resultsHtml += `<div class="video-item">
+                                  <div class="video-title">${video.title}</div>
+                                  <div class="video-description">${video.description}</div>
+                                  <button class="btn btn-primary watch-btn" data-video-id="${video.youtube_id}">Watch Tutorial</button>
+                                </div>`;
+              });
+              $('#videoTutorialsResults').html(resultsHtml);
+            } else {
+              $('#videoTutorialsResults').html("<p>No video tutorials available.</p>");
+            }
+          },
+          error: function() {
+            $('#videoTutorialsResults').html("<p>Error fetching video tutorials. Please try again.</p>");
+          }
+        });
+      });
+      
+      // Event delegation for dynamic Watch Tutorial buttons
+      $(document).on('click', '.watch-btn', function() {
+        var videoId = $(this).data('video-id');
+        var embedUrl = "https://www.youtube.com/embed/" + videoId;
+        $('#videoModal .modal-body iframe').attr('src', embedUrl);
+        $('#videoModal').modal('show');
+      });
+      
+      function appendMessage(sender, message) {
+        const iconHtml = sender === 'user'
+          ? '<div class="user-icon"><i class="fas fa-user"></i></div>'
+          : '<div class="bot-icon"><i class="fas fa-robot"></i></div>';
+        const messageHtml = `<div class="message ${sender}-message">${iconHtml}<p>${message}</p></div>`;
+        $('#chatMessages').append(messageHtml);
+      }
+      
+      function scrollToBottom() {
+        setTimeout(() => {
+          const chatMessages = document.getElementById('chatMessages');
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 100);
+      }
+      
+      function getWeatherData(lat, lon) {
+        setTimeout(() => {
+          $('#weatherTemp').text('24°C');
+          $('#weatherLocation').text('Your Location');
+          $('#weatherHumidity').text('Humidity: 65%');
+        }, 1000);
+      }
+      
+      $('.form-control').on('focus', function() {
+        $(this).parent('.input-group').css('box-shadow', '0 4px 12px rgba(0, 0, 0, 0.1)');
+      }).on('blur', function() {
+        $(this).parent('.input-group').css('box-shadow', '0 2px 6px rgba(0, 0, 0, 0.06)');
+      });
+      
+      $('.btn-primary').on('mousedown', function(e) {
+        const btn = $(this);
+        const btnOffset = btn.offset();
+        const xPos = e.pageX - btnOffset.left;
+        const yPos = e.pageY - btnOffset.top;
+        btn.append("<span class='ripple'></span>");
+        const ripple = btn.find(".ripple");
+        ripple.css({
+          width: btn.height(),
+          height: btn.height(),
+          top: yPos - (ripple.height() / 2),
+          left: xPos - (ripple.width() / 2)
+        }).addClass("active");
+        setTimeout(function() { ripple.remove(); }, 300);
+      });
+      
+      // Live Market Prices refresh functionality
+      function refreshMarketPrices(){
+        var currentTime = new Date().toLocaleTimeString();
+        $('#lastUpdated').text('Last updated: ' + currentTime);
+        // Here you can add an AJAX call to fetch live data if available
+      }
+      
+      $('#refreshPricesBtn').on('click', function(e){
+        e.preventDefault();
+        refreshMarketPrices();
+      });
+    });
+  </script>
+  
+  <!-- Video Modal -->
+  <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="videoModalLabel">Tutorial Video</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="ratio ratio-16x9">
+            <iframe src="" title="YouTube video" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>
