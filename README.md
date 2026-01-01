@@ -27,7 +27,7 @@ This system goes beyond simple monitoring by integrating advanced accessibility 
 ---
 
 **Live-price Preview:**
-![Live-price(./preview-backend.jpg)
+![Live-price](./preview-backend.jpg)
 *(Snapshot demonstrating Live-price)*
 
 ## 🏗️ Full-Stack Architecture
