@@ -9,12 +9,12 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 
 # API keys (for demo purposes)
-GEMINI_API_KEY = "AIzaSyCsSDTYO6MH2pYqjnvDeNkVOG-O2DxwM8A"
-WEATHER_API_KEY = "8dbb52e717a0816fde006a7e4189bb20"
+GEMINI_API_KEY = "YOUR_API_KEY"
+WEATHER_API_KEY = "YOUR_API_KEY"
 
 # Plant.id API Configuration (using v2 endpoint)
-PLANT_ID_API_URL = "https://api.plant.id/v2/identify"
-PLANT_ID_API_KEY = "4emofitN59GrMqRkhLrLA4GNspZLfRru2bYRdOXQKeWZkjCVnF"
+PLANT_ID_API_URL = "YOUR_API_KEY"
+PLANT_ID_API_KEY = "YOUR_API_KEY"
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -322,3 +322,4 @@ def detect_pest():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
